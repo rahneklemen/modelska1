@@ -1,0 +1,323 @@
+\documentclass[slovene,11pt,a4paper]{article}
+%\usepackage{fullpage}
+
+%dodatni paketki:
+\usepackage{graphicx}
+\usepackage{amsmath,amsfonts,amsthm} %matematicni paket
+\usepackage{color} % omogoča barvno pisanje
+\usepackage[utf8]
+{inputenc}
+\usepackage[slovene]{babel} % slovenski jezik/hyphenation
+\usepackage{hyperref} %naredi vse povezave rečerenc, kazala,...
+\numberwithin{equation}{section} % Number equations within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{figure}{section} % Number figures within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{table}{section} % Number tables within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\usepackage{eurosym} %za znak €
+
+
+
+
+\usepackage[margin=2cm]{geometry}
+\include{template}
+
+
+
+
+\begin{document}
+\begin{titlepage}
+
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Defines a new command for the horizontal lines, change thickness here
+
+\center % Center everything on the page
+
+%----------------------------------------------------------------------------------------
+%	LOGO
+%----------------------------------------------------------------------------------------
+
+%\includegraphics{Logo}\\[1cm] % Include a department/university logo - this will require the graphicx package
+ 
+%----------------------------------------------------------------------------------------
+
+\includegraphics[width=2cm]{slike/aaa}\\[0.5cm]
+ 
+%----------------------------------------------------------------------------------------
+%	NASLOV DELA
+%----------------------------------------------------------------------------------------
+\textit{Univerza v Ljubljani}\\
+\textit{Fakulteta za {\color{red}matematiko in fiziko}}\\[0.5cm]
+
+\emph{Oddelek za fiziko}\\[0.5cm] % Oddelek za fiziko
+
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%--------------------------------------------------------------------------------------
+\HRule \\[0.4cm]
+\huge {\bfseries 2. naloga: Linearno programiranje}\\[0.4cm] % NASLOV SEMINARJA
+\HRule \\[0.5cm] 
+
+ \textsc{\large Poročilo pri predmetu modelska analiza 1}\\
+ \textsc{\large 2015/2016}\\[1cm] % SEMINASKO DELO
+ 
+%----------------------------------------------------------------------------------------
+%	AUTHOR SECTION
+%----------------------------------------------------------------------------------------
+
+
+
+% If you don't want a supervisor, uncomment the two lines below and remove the section above
+\Large \emph{Avtor:}\\
+Klemen \textsc{Rahne}\\
+28152028\\[2cm]
+%----------------------------------------------------------------------------------------
+%	DATUM
+%----------------------------------------------------------------------------------------
+
+{\large \today } \\[0.5cm] % Date, change the \today to a set date if you want to be precise
+
+	
+
+\end{titlepage}
+%
+%\maketitle
+%
+%\thispagestyle{empty}
+%\vspace{-1.5cm}
+%
+% Med tipične primere, ki jih lahko učinkovito rešimo z metodami
+% linearnega programiranja, sodi sestavljanje diet za hujšanje,
+% zdravljenje ali športne aktivnosti. Za dani nabor živil določamo
+% njihove količine, pri čemer moramo zadostiti različnim omejitvam. Med
+% drugim moramo zagotoviti priporočene dnevne odmerke mineralov,
+% vitaminov in hranilnih snovi, omejiti pri vnos maščob, ogljikovih
+% hidratov ter telesu škodljivih snovi, hkrati pa zagotoviti, da
+% energijska vrednost ustreza zahtevam posameznika.
+%
+% Vnos vsake izmed hranilnih snovi je linearna funkcija količin živil
+% in je natanko določena z njihovo sestavo. Od vrste diete pa je
+% odvisno, katere parametre omejimo in katere minimiziramo.
+%
+%\begin{enumerate}
+%\item
+%
+%  Tabela v datoteki {\tt
+%    http://predmeti.fmf.uni-lj.si/modelska/podatki/tabela-zivil.dat}
+%  vsebuje podatke o energijski vrednosti ter vsebnosti maščob,
+%  ogljikovih hidratov, proteinov, kalcija in železa v nekaj živilih.
+%  Minimiziraj število kalorij, če je priporočen minimalni dnevni vnos
+%  $70\,\rm g$ maščob, $310\,\rm g$ ogljikovih hidratov, $50\,\rm g$
+%  proteinov, $1000\,\rm mg$ kalcija ter $18\,\rm mg$ železa. Upoštevaj
+%  tudi, da naj dnevni obroki količinsko ne presežejo dveh kilogramov
+%  hrane.
+%
+%\item
+%  Kako se rezultat razlikuje, če zahtevamo minimalno $2000\,\rm
+%  kcal$ in namesto energije minimiziramo vnos maščob?
+%
+%\item
+%  Ker rešujemo poenostavljen problem s samo $5$ parametri na živilo,
+%  so lahko rezultati nerealistični. Lahko z omejitvijo količine
+%  posameznih živil v obroku izboljšaš uravnovešenost prehrane?
+%
+%
+%\item[*] {\sl (neobvezno)} Poišči cene živil in poskusi namesto
+%  kalorij minimizirati ceno. Kako se varčevanje odraža na zdravi prehrani?
+%
+%\end{enumerate}
+%
+%\hrule
+%
+%{\small
+%\paragraph{\small Linearno programiranje:}
+%Linearni optimizacijski problem formuliramo kot optimizacijo funkcije
+%pod pogoji
+%Iskane spremenljivke $x_j$ so v večini paketov privzeto omejene na
+%pozitivne vrednosti.
+%
+%Rutine za linearno programiranje so v različnih zbirkah med drugim na
+%voljo pod imeni {\tt simplx} (\emph{Numerical Recipes}), {\tt
+%  LinearProgramming} (\emph{Mathematica}), {\tt linprog}
+%(\emph{matlab}) in v knjižnici \emph{GLPK}, ki pride tudi s
+%samostojnim programom {\tt glpsol}. Ta sprejema vrsto različnih
+%formatov za deklaracijo linearnih problemov (na primer {\tt CPLEX
+%  LP}).
+%
+%}
+
+
+
+%----------------------------------------------------------------------------------------
+%	KAZALO
+%----------------------------------------------------------------------------------------
+
+\tableofcontents
+
+%----------------------------------------------------------------------------------------
+%	ZAČETEK TEKSTA
+%----------------------------------------------------------------------------------------
+
+\section{Naloga}
+
+Želimo sestaviti najbolj optimalno sestavljen obrok, z različnimi pogoji vsebnosti hranilnih vrednosti za dieto, zdravljenje, športni obrok,... Problem rešujemo s pomočjo linearne optimizacije. Iščemo minimum funkcije (npr. maščobe):
+
+\begin{equation}
+\label{eq-mimimum-fukcija}
+f(x_j)=\sum_j a_{j} x_j = \text{MIN}
+\end{equation}
+ob veljavnosti naslednjih pogojih.
+
+\begin{equation*}
+\begin{aligned}
+\sum_j a_{ij} x_j \leq b_i\\
+0 \leq x_j
+\end{aligned}
+\end{equation*}
+V primeru, da iščemo maximum zgornje funkcije ali da imamo pri pogojih obrnmjen znak ($\geq $), enačbe oz. pogoj pomnožimo z $-1$. Na koncu je potem potrebno paziti, ali je še potrebno naše rešitve pomnožiti z $-1$.
+
+
+\section{Minimizacija posamezne komponente}
+Iz datoteke dostopne na {\tt http://predmeti.fmf.uni-lj.si/modelska/podatki/tabela-zivil.dat}\footnote{Dosegljiva 14.10.2015} sem uvozil tabelo, katera vsebuje energijske vrednosti, maščobe, ogljikovih hidratov, proteinov, kalcija in železa za posamezno živilo.
+\\
+ Najprej želimo minimizirati energijsko vrednost obroka. V tem primeru je koeficient $a_i$ energijska vrednost $j$-tega živila na $100g$, koeficient $a_{ij}$ matrike $A$ so $i$-ta vsebnost (npr.:maščobe, ogljikovi hidrati,...) $j$-tega živila. V vektorju $b$, njegove komponente $b_i$ pomenijo $i$-to omejitev. Oglejmo si preprost primer z naslednjo omejitvijo:
+\begin{equation}
+\label{eq-pogoj-prva}
+    b =
+    \begin{bmatrix}
+        \text{maščobe} \\
+        \text{ogljikovi hidrati} \\
+        \text{proteini} \\
+        \text{kalcij} \\
+        \text{zelezo}
+    \end{bmatrix}
+    \geq
+        \begin{bmatrix}
+        \text{70g} \\
+        \text{310g} \\
+        \text{50g} \\
+        \text{1000mg} \\
+        \text{18mg}
+    \end{bmatrix}
+\end{equation}
+in skupno maso manj kot $2000g$. Po vnosu podatkov v program matlab in uporabi funkcije {\tt linprog} sem dobil naslednji rezultat:
+
+\begin{table}[h]
+\centering
+\label{my-label}
+\begin{tabular}{lll|l|l|}
+\cline{4-5}
+                               &                              &  & energijska vsebnost-minimum & 1526,10 kcal \\ \cline{1-2} \cline{4-5} 
+\multicolumn{1}{|l|}{pomfri}   & \multicolumn{1}{l|}{477,42g} &  & maščobe                     & 70g     \\ \cline{1-2} \cline{4-5} 
+\multicolumn{1}{|l|}{bel kruh} & \multicolumn{1}{l|}{291,75g} &  & ogljikovi hidrati           & 310g    \\ \cline{1-2} \cline{4-5} 
+\multicolumn{1}{|l|}{solata}   & \multicolumn{1}{l|}{1044,67} &  & proteini                    & 56,1g   \\ \cline{1-2} \cline{4-5} 
+\multicolumn{1}{|l|}{grozdje}  & \multicolumn{1}{l|}{186,16g} &  & kalcij                      & 1000mg  \\ \cline{1-2} \cline{4-5} 
+                               &                              &  & železo                      & 21,2mg  \\ \cline{4-5} 
+\end{tabular}
+\end{table}
+Vsa ostala živila iz datoteke, ne bodo zastopana v našem obroku, saj so dobila vrednosti $0g$.\\
+Oglejmo si še za primer, ko minimiziramo vnos maščob, ob minimalnem vnosu $2000kcal$. Skupna masa obroka je še vedsno manj kot $2000g$. Torej, sledi pogoj:
+\begin{equation}
+\label{eq-vec-od-1}
+    b =
+    \begin{bmatrix}
+        \text{energijska vrednost} \\
+        \text{ogljikovi hidrati} \\
+        \text{proteini} \\
+        \text{kalcij} \\
+        \text{zelezo}
+    \end{bmatrix}
+    =
+        \begin{bmatrix}
+        \text{2000kcal} \\
+        \text{310g} \\
+        \text{50g} \\
+        \text{1000mg} \\
+        \text{18mg}
+    \end{bmatrix}
+    \leq
+    A \vec{x}
+\end{equation}
+in rešitev:
+\begin{table}[!h]
+\centering
+\begin{tabular}{lll|l|l|}
+\cline{4-5}
+                               &                           &  & maščobe-minimum     & 14,9g  \\ \cline{1-2} \cline{4-5} 
+\multicolumn{1}{|l|}{bel kruh} & \multicolumn{1}{l|}{223g} &  & energijska vrednost & 2000kcal \\ \cline{1-2} \cline{4-5} 
+\multicolumn{1}{|l|}{fižol}    & \multicolumn{1}{l|}{961g} &  & ogljikovi hidrati   & 361,1g   \\ \cline{1-2} \cline{4-5} 
+\multicolumn{1}{|l|}{solata}   & \multicolumn{1}{l|}{816g} &  & proteini            & 119,7g   \\ \cline{1-2} \cline{4-5} 
+                               &                           &  & kalcij              & 1000mg   \\ \cline{4-5} 
+                               &                           &  & železo              & 34,5mg   \\ \cline{4-5} 
+                               &                           &  & skupna masa         & 2000g    \\ \cline{4-5} 
+\end{tabular}
+\end{table}
+\\
+Če pogledamo v tabelo vseh živil, vidimo, da tri živila ne vsebujejo maščobe (rdeča pesa, pivo in grozdje). Naivno oko, bi reklo, da bodo ta živila v obroku, pa jih ni. Izbrana živila v naše obroku (kruh, fižol in solata) imajo tudi majhno vsebnost maščob, vendar boljše pripomorejo k izpolnitvi kriterija v \ref{eq-vec-od-1}.
+
+\section{Uravnoteženost obroka}
+Ker smo v naš "idealen" obrok do sedaj dobili samo tri oz. štiri živila, bom sedaj uporabili še dodaten kriterij: vsakega živila je lahko v obroku maksimalno $100g$. Ostale pogoje uporabimo iz našega prvega primera ( \ref{eq-pogoj-prva} minimizacija energijske vrednosti). Dobimo naslednjo rešitev:
+\begin{table}[!h]
+\centering
+\begin{tabular}{|l|l|lll}
+\cline{1-2} \cline{4-5}
+Ovseni\_kosmici & 57,4g & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{energijska vrednost-minimum} & \multicolumn{1}{l|}{1965,8kcal} \\ \cline{1-2} \cline{4-5} 
+Jabolko         & 100g  & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{maščobe}                     & \multicolumn{1}{l|}{70g}        \\ \cline{1-2} \cline{4-5} 
+Pomfri          & 100g  & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{ogljikovi hidrati}           & \multicolumn{1}{l|}{310g}       \\ \cline{1-2} \cline{4-5} 
+Mleko           & 100g  & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{proteini}                    & \multicolumn{1}{l|}{58g}        \\ \cline{1-2} \cline{4-5} 
+Sir             & 43,2g & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{kalcij}                      & \multicolumn{1}{l|}{1000mg}     \\ \cline{1-2} \cline{4-5} 
+Kruh\_bel       & 100g  & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{železo}                      & \multicolumn{1}{l|}{18mg}       \\ \cline{1-2} \cline{4-5} 
+Riz             & 100g  & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{skupna masa}                 & \multicolumn{1}{l|}{1344g}      \\ \cline{1-2} \cline{4-5} 
+Cokolada        & 55,0g &                       &                                                  &                                 \\ \cline{1-2}
+Rdeca\_pesa     & 100g  &                       &                                                  &                                 \\ \cline{1-2}
+Solata          & 100g  &                       &                                                  &                                 \\ \cline{1-2}
+Zelje           & 100g  &                       &                                                  &                                 \\ \cline{1-2}
+Grozdje         & 100g  &                       &                                                  &                                 \\ \cline{1-2}
+Jagode          & 100g  &                       &                                                  &                                 \\ \cline{1-2}
+Makaroni        & 88,9g &                       &                                                  &                                 \\ \cline{1-2}
+Torta           & 100g  &                       &                                                  &                                 \\ \cline{1-2}
+\end{tabular}
+\end{table}
+\\
+Izbrana metoda za določitev optimalnega obroka ni slaba. Poleg tega, da smo popestrili obrok, smo se z minimizacijo energijske vrednosti približali vrednosti, ki naj bi bila optimalna dnevno vnešena energijska vrednost ($2000kcal$). 
+\pagebreak
+\section{Najcenejši obrok}
+Oglejmo si kako bi izgledal obrok, če bi bil kriterij najmanjša cena. Podatke o ceni živil sem našel na spletni strani enega večjih trgovcev Sloveniji. Obrok bi izgledal sledeče:
+\begin{table}[!h]
+\centering
+\begin{tabular}{lll|l|l|}
+\cline{1-2} \cline{4-5}
+\multicolumn{1}{|l|}{Mleko}     & \multicolumn{1}{l|}{61g}  &  & cena-najceneje      & 1,3\euro      \\ \cline{1-2} \cline{4-5} 
+\multicolumn{1}{|l|}{Kruh\_bel} & \multicolumn{1}{l|}{647g} &  & mascobe             & 70g        \\ \cline{1-2} \cline{4-5} 
+\multicolumn{1}{|l|}{Maslo}     & \multicolumn{1}{l|}{55g}  &  & energijska vrednost & 2149,8kcal \\ \cline{1-2} \cline{4-5} 
+                                &                           &  & ogljikovi hidrati   & 310g       \\ \cline{4-5} 
+                                &                           &  & proteini            & 73,0g      \\ \cline{4-5} 
+                                &                           &  & kalcij              & 1000mg     \\ \cline{4-5} 
+                                &                           &  & železo              & 22,4mg     \\ \cline{4-5} 
+                                &                           &  & skupna masa         & 762,2g     \\ \cline{4-5} 
+\end{tabular}
+\end{table}
+\\
+Ponovno imamo samo tri različne živila na razpolago, zato ponovno omejimo vsa živila na maksimalno vrednost $100g$ (npr. zaradi finančnih razlogov, si ne moremo privoščiti več). Pridemo do obroka naslednjih vrednosti:
+\begin{table}[!h]
+\centering
+\begin{tabular}{|l|l|}
+\hline
+cena-najceneje      & 2,73\euro \\ \hline
+mascobe             & 70g       \\ \hline
+energijska vrednost & 2037g     \\ \hline
+ogljikovi hidrati   & 310g      \\ \hline
+proteini            & 74g       \\ \hline
+kalcij              & 1000mg    \\ \hline
+železo              & 18mg      \\ \hline
+skupna masa         & 762,2g    \\ \hline
+\end{tabular}
+\end{table}
+\\
+Sedaj se v obroku ne pojavijo sledeča živila :
+\begin{itemize}
+\item živalskega izvora: govedina, svinjina, skuša, jajca
+\item zeljenjava: fižol, solata, jagoda
+\item čokolada, torta
+\end{itemize}
+
+\pagebreak
+\end{document}
